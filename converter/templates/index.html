@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>File Converter</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+  body {
+    background: url('https://images.unsplash.com/photo-1581093588401-0c5d36edb046?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .overlay {
+    background-color: rgba(255, 255, 255, 0.9); /* Light white overlay for readability */
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .header {
+    text-align: center;
+    padding: 40px 20px 20px;
+  }
+
+  .header h1 {
+    font-size: 2.5rem;
+    color: #343a40;
+    font-weight: 700;
+  }
+
+  .section {
+    padding: 30px;
+    background: white;
+    margin-bottom: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  h3 {
+    margin-bottom: 20px;
+    color: #000 !important;
+    font-weight: 600;
+  }
+
+  .form-label {
+    font-weight: 500;
+  }
+
+  .btn {
+    font-weight: 500;
+  }
+</style>
+
+
+</head>
+<body>
+
+<div class="container mt-5 overlay">
+  <div class="header">
+    <h1><i class="bi bi-arrow-repeat me-2"></i>File Converter</h1>
+    <p class="text-muted">Easily convert documents, images, and PDFs</p>
+  </div>
+
+  <div class="row g-4">
+    <!-- Left Column: Word <-> PDF -->
+    <div class="col-md-6">
+      <div class="section">
+        <h3><i class="bi bi-file-earmark-word-fill me-2"></i>Document to PDF</h3>
+        <form method="POST" action="/convert_to_pdf" enctype="multipart/form-data">
+          <div class="mb-3">
+            <label class="form-label">Upload DOCX or DOC:</label>
+            <input type="file" class="form-control" name="file" accept=".doc,.docx" required>
+          </div>
+          <button type="submit" class="btn btn-primary w-100">
+            <i class="bi bi-filetype-pdf me-1"></i>Convert to PDF
+          </button>
+        </form>
+      </div>
+
+      <div class="section">
+        <h3><i class="bi bi-file-earmark-pdf-fill me-2"></i>PDF to Document</h3>
+        <form method="POST" action="/convert_to_word" enctype="multipart/form-data">
+          <div class="mb-3">
+            <label class="form-label">Upload PDF:</label>
+            <input type="file" class="form-control" name="file" accept=".pdf" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Select Output Format:</label>
+            <select name="output_format" class="form-select" required>
+              <option value="docx">DOCX</option>
+              <option value="doc">DOC</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-success w-100">
+            <i class="bi bi-arrow-right-square me-1"></i>Convert to Selected Format
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Right Column: Image <-> PDF -->
+    <div class="col-md-6">
+      <div class="section">
+        <h3><i class="bi bi-image-fill me-2"></i>Image to PDF</h3>
+        <form method="POST" action="/convert_image_to_pdf" enctype="multipart/form-data">
+          <div class="mb-3">
+            <label class="form-label">Upload Image (JPG, PNG, etc.):</label>
+            <input type="file" class="form-control" name="file" accept="image/*" required>
+          </div>
+          <button type="submit" class="btn btn-warning w-100 text-dark">
+            <i class="bi bi-filetype-pdf me-1"></i>Convert to PDF
+          </button>
+        </form>
+      </div>
+
+      <div class="section">
+        <h3><i class="bi bi-file-earmark-image-fill me-2"></i>PDF to Image</h3>
+        <form method="POST" action="/convert_pdf_to_images" enctype="multipart/form-data">
+          <div class="mb-3">
+            <label class="form-label">Upload PDF:</label>
+            <input type="file" class="form-control" name="file" accept=".pdf" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Select Output Image Format:</label>
+            <select name="image_format" class="form-select" required>
+              <option value="png">PNG</option>
+              <option value="jpg">JPG</option>
+              <option value="jpeg">JPEG</option>
+              <option value="bmp">BMP</option>
+              <option value="tiff">TIFF</option>
+              <option value="webp">WEBP</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-info w-100 text-white">
+            <i class="bi bi-images me-1"></i>Convert to Image(s)
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  {% if error %}
+    <div class="alert alert-danger mt-4 text-center">
+      {{ error }}
+    </div>
+  {% endif %}
+</div>
+
+</body>
+</html>
